@@ -34,10 +34,16 @@ type PL struct {
 var DW bool = false
 
 func main() {
-	var Pler PL
-	PSL := Pler.INIT()
-	var NewPLS []PL
-	var vg sync.WaitGroup
+	var (
+		Pler   PL
+		PSL    []PL
+		NewPLS []PL
+		FPLS   []PL
+		vg     sync.WaitGroup
+	)
+
+	PSL = Pler.INIT()
+
 	for _, v := range PSL {
 		vg.Add(1)
 		go func(v PL) {
@@ -49,11 +55,9 @@ func main() {
 	}
 	vg.Wait()
 
-	var FPLS []PL
 	for _, v := range NewPLS {
 		vg.Add(1)
 		go func(v PL) {
-
 			FPLS = append(FPLS, v.MainTest())
 			vg.Done()
 		}(v)
